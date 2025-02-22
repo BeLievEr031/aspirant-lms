@@ -1,14 +1,18 @@
 import Resource from "../model/ResourceModel";
 import { IResource } from "../types";
-import generatePreSignedUrl from "../utils/generatePreSignedUrl";
+import generatePreSignedUrl, { generatePreSignedUrlForFetch } from "../utils/generatePreSignedUrl";
 
 class ResourceService {
     constructor(private resourceRepo: typeof Resource) {
         this.resourceRepo = resourceRepo;
     }
 
-    async generatePresSigned(fileName: string, fileType: string) {
+    async generatePreSigned(fileName: string, fileType: string) {
         return await generatePreSignedUrl(fileName, fileType)
+    }
+
+    async generatePreSignedUrlForFetch(key: string) {
+        return await generatePreSignedUrlForFetch(key)
     }
 
     async create(data: IResource) {

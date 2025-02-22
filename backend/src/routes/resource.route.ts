@@ -14,6 +14,8 @@ const resourceController = new ResourceController(resourceService);
 
 resourceRouter.get("/pre-signed", generatePreSignedUrlValidation, (req: Request, res: Response, next: NextFunction) => resourceController.generatePreSigned(req as PreSignedUrlRequest, res, next))
 
+resourceRouter.get("/pre-signed-fetch", generatePreSignedUrlValidation, (req: Request, res: Response, next: NextFunction) => resourceController.generatePreSignedForFetch(req as PreSignedUrlRequest, res, next))
+
 resourceRouter.post("/", createResourceValidation, (req: Request, res: Response, next: NextFunction) => resourceController.create(req as ResourceRequest, res, next))
 
 resourceRouter.put("/:id", idValidation, updateResourceValidation, (req: Request, res: Response, next: NextFunction) => resourceController.update(req as ResourceRequest, res, next))

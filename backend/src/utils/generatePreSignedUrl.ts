@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import Config from "../config/Config";
 import logger from "../config/logger";
@@ -29,4 +29,20 @@ export const generatePreSignedUrl = async (fileName: string, fileType: string) =
     }
 };
 
+export const generatePreSignedUrlForFetch = async (fileKey: string) => {
+    try {
+
+        const command = new GetObjectCommand({
+            Bucket: Config.AWS_BUCKET_NAME!,
+            Key: fileKey
+        });
+
+        const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 })
+        return signedUrl;
+    } catch (error) {
+        logger.error(error);
+        throw new Error("Unable to fetch object.")
+
+    }
+}
 export default generatePreSignedUrl;

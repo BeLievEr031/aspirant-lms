@@ -39,6 +39,7 @@ export interface IPagination {
     order: "asc" | "desc";
     sortBy: string;
     parentId?: string;
+    chapterId?: string;
     belong?: string;
 }
 
@@ -51,4 +52,11 @@ export interface IChapter {
     _id?: string;
     name: string;
     subjectId: string;
+}
+
+export interface ILectureResource {
+    _id?: string;
+    name: string;
+    chapterId: string;
+    url: string;
 }

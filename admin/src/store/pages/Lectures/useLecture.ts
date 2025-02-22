@@ -1,4 +1,4 @@
-import { createLectureExamCategory, createStudyMaterialChapter, createStudyMaterialSubject, fetchLectureExamCategory, fetchStudyMaterialChapter, fetchStudyMaterialSubject, getPreSignedUrl } from "../../../http/api"
+import { createLectureExamCategory, createLectureResource, createStudyMaterialChapter, createStudyMaterialSubject, fetchLectureExamCategory, fetchLectureResource, fetchStudyMaterialChapter, fetchStudyMaterialSubject, getPreSignedUrl } from "../../../http/api"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { IPagination } from "../../../types";
 
@@ -82,3 +82,26 @@ export const useGetPreSignedUrl = (query: { fileType: string; fileName: string }
     )
 }
 
+
+export const useLecturResourceMutation = (cb: (isModel: boolean) => void) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: createLectureResource,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["resource-for-lecture"] });
+            cb(false)
+        }
+    });
+}
+
+
+export const useLectureResourcQuery = (pagination: IPagination) => {
+    return useQuery(
+        {
+            queryKey: ['resource-for-lecture', pagination],
+            queryFn: () => fetchLectureResource(pagination),
+            staleTime: 60 * 1000 * 10,
+        }
+    )
+}

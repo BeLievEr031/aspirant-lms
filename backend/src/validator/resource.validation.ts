@@ -41,6 +41,15 @@ export const createResourceValidation = checkSchema({
         trim: true,
         toLowerCase: true,
     },
+    url: {
+        in: ["body"],
+        isString: {
+            errorMessage: "Url must be a string",
+        },
+        notEmpty: {
+            errorMessage: "Url is required",
+        },
+    },
 });
 
 export const updateResourceValidation = checkSchema({

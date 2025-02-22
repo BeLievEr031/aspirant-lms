@@ -1,5 +1,5 @@
 import api from ".";
-import { IChapter, IExamCategory, IPagination, ISubject } from "../types";
+import { IChapter, IExamCategory, ILectureResource, IPagination, ISubject } from "../types";
 
 
 // CRUD For study-material-exam-category
@@ -45,3 +45,7 @@ export const fetchLectureExamCategory = (pagination: IPagination) => api.get(`/e
 // CRUD for resource-lecture
 
 export const getPreSignedUrl = (query: { fileType: string; fileName: string }) => api.get(`/resource/pre-signed?fileType=${query.fileType}&fileName=${query.fileName}`)
+
+export const createLectureResource = (data: ILectureResource) => api.post("/resource", data)
+
+export const fetchLectureResource = (pagination: IPagination) => api.get(`/resource?page=${pagination.page}&limit=${pagination.limit}&sortBy=${pagination.sortBy}&order=${pagination.order}&chapterId=${pagination.chapterId!}`)

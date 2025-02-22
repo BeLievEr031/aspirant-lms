@@ -17,7 +17,26 @@ class ResourceController {
             }
 
             const { fileName, fileType } = req.query;
-            const url = await this.resourceService.generatePresSigned(fileName, fileType)
+            const url = await this.resourceService.generatePreSigned(fileName, fileType)
+            res.status(HTTP_STATUS.OK).json({
+                success: true,
+                data: url
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async generatePreSignedForFetch(req: PreSignedUrlRequest, res: Response, next: NextFunction) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({ errors: errors.array() });
+                return;
+            }
+
+            const { key } = req.query;
+            const url = await this.resourceService.generatePreSignedUrlForFetch(key)
             res.status(HTTP_STATUS.OK).json({
                 success: true,
                 data: url

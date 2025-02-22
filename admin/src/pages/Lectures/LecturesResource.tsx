@@ -5,44 +5,39 @@ import { RxCross2 } from "react-icons/rx";
 import { getPreSignedUrl } from "../../http/api";
 import axios, { AxiosProgressEvent } from "axios";
 import ProgressBar from "../../components/ProgressBar";
+import { useLecturResourceMutation } from "../../store/pages/Lectures/useLecture";
+import useBreadCrumb from "../../store/breadCrumbStore";
 interface IUploader {
     isUploading: boolean,
     percentage: number
 }
+
 function LecturesResource() {
+    const { breadCrumb } = useBreadCrumb();
     const [isUploadModel, setUploadModel] = useState<boolean>(false)
     const titleRef = useRef<HTMLInputElement>(null!)
-    // const descRef = useRef<HTMLInputElement>(null!)
     const fileRef = useRef<HTMLInputElement>(null!)
     const [uploader, setUploader] = useState<IUploader | null>(null)
+    const { mutate, isPending } = useLecturResourceMutation(setUploadModel);
+
     const handleUpload = async () => {
-
         const file = fileRef?.current?.files?.[0];
-
         if (!file || !titleRef || titleRef.current?.value === "") return alert("All fields required!")
-
-        const imgUrl = URL.createObjectURL(file)
-        console.log(imgUrl);
-        console.log(file);
-        console.log(titleRef.current?.value);
-
-
         if (!file.type.includes("video/mp4")) {
             alert("Upload video file only...")
             return
         }
+
         try {
             const { data } = await getPreSignedUrl({
                 fileType: "video/mp4",
                 fileName: file.name
             });
 
-            console.log(data.data);
             const preSignedUrl = data.data
             const response = await axios.put(preSignedUrl, file, {
                 headers: {
-                    "Content-Type": file.type, // Ensure correct MIME type
-                    // "x-amz-acl": "public-read", // Optional: Make file public
+                    "Content-Type": file.type,
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
                     if (progressEvent.total) {
@@ -51,19 +46,22 @@ function LecturesResource() {
                             isUploading: true,
                             percentage: progress
                         })
-
-                        if (progress === 100) {
-                            setUploader(null);
-                            setUploadModel(false);
-                            alert("Video uploaded successfully.")
-                        }
                     }
                 },
             });
 
             if (response.status === 200) {
-                console.log("File uploaded successfully!");
-                return preSignedUrl.split("?")[0]; // Returns the uploaded file URL
+                mutate({
+                    chapterId: breadCrumb[breadCrumb.length - 1].id,
+                    name: titleRef.current?.value,
+                    url: preSignedUrl.split("?")[0]
+                })
+
+                setUploader(null);
+                setUploadModel(false);
+
+                alert("Video uploaded successfully.")
+                return preSignedUrl.split("?")[0];
             } else {
                 throw new Error(`Upload failed: ${response.status}`);
             }
@@ -106,7 +104,7 @@ function LecturesResource() {
                         <ProgressBar progress={uploader.percentage} />
                     </div>}
                     <div className="flex gap-2 justify-end my-4">
-                        <Button onClick={handleUpload} disabled={uploader ? true : false}>Upload</Button>
+                        <Button onClick={handleUpload} disabled={uploader || isPending ? true : false}>Upload</Button>
                         <Button variant="danger" onClick={() => {
                             setUploader(null);
                             setUploadModel(false)

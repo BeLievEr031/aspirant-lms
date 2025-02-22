@@ -79,6 +79,7 @@ export interface PreSignedUrlRequest extends Request {
     query: {
         fileType: string;
         fileName: string;
+        key: string;
     }
 }
 
