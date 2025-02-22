@@ -59,4 +59,5 @@ export interface ILectureResource {
     name: string;
     chapterId: string;
     url: string;
+    belong: string | "study-material" | 'time-table' | 'study-plan' | 'upload-lectures' | 'upload-quizz';
 }

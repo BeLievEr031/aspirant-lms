@@ -15,6 +15,11 @@ const resourceSchema = new Schema<IResource>({
     url: {
         type: String,
         required: true,
+    },
+    belong: {
+        type: String,
+        required: true,
+        enum: ["study-material", 'time-table', 'study-plan', 'upload-lectures', 'upload-quizz']
     }
 }, {
     timestamps: true

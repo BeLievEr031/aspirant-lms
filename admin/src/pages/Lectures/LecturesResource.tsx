@@ -64,7 +64,8 @@ function LecturesResource() {
                 mutate({
                     chapterId: breadCrumb[breadCrumb.length - 1].id,
                     name: titleRef.current?.value,
-                    url: preSignedUrl.split("?")[0]
+                    url: preSignedUrl.split("?")[0],
+                    belong: "upload-lectures"
                 })
 
                 setUploader(null);

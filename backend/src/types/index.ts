@@ -24,6 +24,7 @@ export interface IResource {
     name: string;
     url: string;
     chapterId: mongoose.Schema.Types.ObjectId;
+    belong: string | "study-material" | 'time-table' | 'study-plan' | 'upload-lectures' | 'upload-quizz'
 }
 
 export interface ExamCategoryRequest extends Request {
