@@ -5,8 +5,10 @@ import { RxCross2 } from "react-icons/rx";
 import { getPreSignedUrl } from "../../http/api";
 import axios, { AxiosProgressEvent } from "axios";
 import ProgressBar from "../../components/ProgressBar";
-import { useLecturResourceMutation } from "../../store/pages/Lectures/useLecture";
+import { useLectureResourcQuery, useLecturResourceMutation } from "../../store/pages/Lectures/useLecture";
 import useBreadCrumb from "../../store/breadCrumbStore";
+import VideoCard from "../../components/VideoCard";
+import { IPagination } from "../../types";
 interface IUploader {
     isUploading: boolean,
     percentage: number
@@ -14,12 +16,20 @@ interface IUploader {
 
 function LecturesResource() {
     const { breadCrumb } = useBreadCrumb();
+    const [pagination] = useState<IPagination>({
+        limit: 20,
+        order: "desc",
+        page: 1,
+        sortBy: "createdAt",
+        belong: "upload-lectures",
+        chapterId: breadCrumb[breadCrumb.length - 1].id
+    })
     const [isUploadModel, setUploadModel] = useState<boolean>(false)
     const titleRef = useRef<HTMLInputElement>(null!)
     const fileRef = useRef<HTMLInputElement>(null!)
     const [uploader, setUploader] = useState<IUploader | null>(null)
-    const { mutate, isPending } = useLecturResourceMutation(setUploadModel);
-
+    const { mutate } = useLecturResourceMutation(setUploadModel);
+    const { data, isPending, isError, error } = useLectureResourcQuery(pagination);
     const handleUpload = async () => {
         const file = fileRef?.current?.files?.[0];
         if (!file || !titleRef || titleRef.current?.value === "") return alert("All fields required!")
@@ -72,10 +82,26 @@ function LecturesResource() {
 
     };
 
+    if (isPending) {
+        return <div>Loading...</div>
+    }
+
+    if (isError) {
+        return <div>{error.message}</div>
+    }
+
     return (
         <div className="w-full">
             <div className="flex justify-end">
                 <Button onClick={() => setUploadModel(true)}>Upload Video</Button>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+                {
+                    data?.data?.data?.data.map((item: { name: string, url: string }, index: number) => {
+                        return <VideoCard key={index} title={item.name} url={item.url} />
+                    })
+                }
             </div>
 
             {isUploadModel && <div className="absolute w-[80%] h-5/6 bg-white bottom-0 left-[20%] rounded-t-3xl shadow-[0px_-4px_8px_rgba(17,17,26,0.2)] pt-4">
@@ -91,10 +117,6 @@ function LecturesResource() {
                     <div className="my-2 mt-6">
                         <Input name="video-title" label="Video Title" inputRef={titleRef} />
                     </div>
-                    {/* <div className="my-3">
-                        <Input name="video-description" label="Video Description" inputRef={descRef} />
-
-                    </div> */}
                     <div className="my-4">
                         <Input name="video-file" label="Select Video" type="file" inputRef={fileRef} />
                     </div>
