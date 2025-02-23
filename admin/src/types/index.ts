@@ -39,6 +39,7 @@ export interface IPagination {
     order: "asc" | "desc";
     sortBy: string;
     parentId?: string;
+    examId?: string;
     chapterId?: string;
     belong?: string;
 }

@@ -57,8 +57,9 @@ class StudyPlanController {
             const limit = parseInt(req.query.limit as string) || 10;
             const sortBy = (req.query.sortBy as string) || "createdAt";
             const order = (req.query.order as string) || "desc";
+            const examId = (req.query.examId as string) || "desc";
 
-            const result = await this.studyPlanService.getAll(page, limit, sortBy, order);
+            const result = await this.studyPlanService.getAll(page, limit, sortBy, order, examId);
             res.status(200).json(result);
         } catch (error) {
             next(error);

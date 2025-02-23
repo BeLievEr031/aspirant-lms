@@ -12,7 +12,6 @@ import Notification from "../pages/Notification/Notification";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import ExamTT from "../pages/ExamTT/ExamTT";
 import Profile from "../pages/Profile/Profile";
-import Resources from "../pages/StudyMaterial/Resources";
 import RootLayout from "../layouts/RootLayout";
 import { Auth } from "../pages/Auth/Auth";
 import LecturesExamCategory from "../pages/Lectures/LecturesExamCategory";
@@ -20,9 +19,10 @@ import LecturesSubject from "../pages/Lectures/LecturesSubject";
 import LecturesChapter from "../pages/Lectures/LecturesChapter";
 import LecturesResource from "../pages/Lectures/LecturesResource";
 import StudyPlanExamCategory from "../pages/StudyPlan/StudyPlanExamCategory";
-import StudyPlanResource from "../pages/StudyPlan/StudyPlanResource";
 import TimeTableExamCategory from "../pages/ExamTT/TimeTableExamCategory";
 import TimeTableResource from "../pages/ExamTT/TimeTableResource";
+import StudyMaterialResource from "../pages/StudyMaterial/Resources";
+import PlanResources from "../pages/StudyPlan/StudyPlanResource";
 
 const router = createBrowserRouter([
     {
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
 
                             {
                                 path: ":category-id/:subject-id/:chapter-id",
-                                element: <Resources />
+                                element: <StudyMaterialResource />
                             },
                         ]
                     },
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
                             },
                             {
                                 path: ":category-id",
-                                element: <StudyPlanResource />
+                                element: <PlanResources />
                             },
                         ]
                     },

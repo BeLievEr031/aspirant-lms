@@ -15,12 +15,12 @@ class StudyPlanService {
         return await this.studyPlanRepo.create(data);
     }
 
-    async getAll(page: number = 1, limit: number = 10, sortBy: string = "createdAt", order: string = "desc") {
+    async getAll(page: number = 1, limit: number = 10, sortBy: string = "createdAt", order: string = "desc", examId: string) {
         const skip = (page - 1) * limit;
         const sortOrder = order === "asc" ? 1 : -1;
 
         const [data, total] = await Promise.all([
-            this.studyPlanRepo.find().sort({ [sortBy]: sortOrder }).skip(skip).limit(limit).populate("examId"),
+            this.studyPlanRepo.find({ examId }).sort({ [sortBy]: sortOrder }).skip(skip).limit(limit).populate("examId"),
             this.studyPlanRepo.countDocuments()
         ]);
 

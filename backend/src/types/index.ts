@@ -40,6 +40,8 @@ export interface PaginationRequest extends Request {
         parentId?: string;
         belong?: string;
         chapterId?: string;
+        examId?: string;
+
     }
 }
 

@@ -49,3 +49,10 @@ export const getPreSignedUrl = (query: { fileType: string; fileName: string }) =
 export const createLectureResource = (data: ILectureResource) => api.post("/resource", data)
 
 export const fetchLectureResource = (pagination: IPagination) => api.get(`/resource?page=${pagination.page}&limit=${pagination.limit}&sortBy=${pagination.sortBy}&order=${pagination.order}&chapterId=${pagination.chapterId!}`)
+
+
+// CRUD Study plan resource
+
+export const createStudyPlan = (data: { data: string; examId: string }) => api.post("/study-plan/resource", data)
+
+export const fetchStudyPlan = (pagination: IPagination) => api.get(`/study-plan?page=${pagination.page}&limit=${pagination.limit}&sortBy=${pagination.sortBy}&order=${pagination.order}&examId=${pagination.examId!}`)
