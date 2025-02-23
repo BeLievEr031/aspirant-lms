@@ -8,6 +8,18 @@ class ResourceController {
         this.resourceService = resourceService;
     }
 
+    async metaData(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.resourceService.meta();
+            res.status(HTTP_STATUS.OK).json({
+                success: true,
+                data
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     async generatePreSigned(req: PreSignedUrlRequest, res: Response, next: NextFunction) {
         try {
             const errors = validationResult(req);

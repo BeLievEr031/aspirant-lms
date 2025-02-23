@@ -12,6 +12,8 @@ const resourceRouter = Router();
 const resourceService = new ResourceService(Resource);
 const resourceController = new ResourceController(resourceService);
 
+resourceRouter.get("/meta", (req: Request, res: Response, next: NextFunction) => resourceController.metaData(req, res, next))
+
 resourceRouter.get("/pre-signed", generatePreSignedUrlValidation, (req: Request, res: Response, next: NextFunction) => resourceController.generatePreSigned(req as PreSignedUrlRequest, res, next))
 
 resourceRouter.get("/pre-signed-fetch", generatePreSignedUrlValidation, (req: Request, res: Response, next: NextFunction) => resourceController.generatePreSignedForFetch(req as PreSignedUrlRequest, res, next))

@@ -1,10 +1,21 @@
 import Resource from "../model/ResourceModel";
+import StudyPlan from "../model/StudyPlanModel";
 import { IResource } from "../types";
 import generatePreSignedUrl, { generatePreSignedUrlForFetch } from "../utils/generatePreSignedUrl";
 
 class ResourceService {
     constructor(private resourceRepo: typeof Resource) {
         this.resourceRepo = resourceRepo;
+    }
+
+    async meta() {
+        const uploadedLectCount = await this.resourceRepo.countDocuments({ belong: "study-material" })
+        const uploadedStudyCount = await this.resourceRepo.countDocuments({ belong: "upload-lectures" })
+        const examTTCount = await this.resourceRepo.countDocuments({ belong: "exam-time" })
+        const studyPlanCount = await StudyPlan.countDocuments()
+        return {
+            uploadedLectCount, uploadedStudyCount, examTTCount, studyPlanCount
+        }
     }
 
     async generatePreSigned(fileName: string, fileType: string) {
