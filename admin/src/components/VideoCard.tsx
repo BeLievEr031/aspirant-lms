@@ -6,7 +6,7 @@ interface IVideoCard {
     title: string;
     url: string;
 }
-function VideoCard({ title, url = "https://aspirant-lms-bucket.s3.ap-south-1.amazonaws.com/uploads/1740219762210-bandicam%202023-06-01%2016-52-49-895.mp4" }: IVideoCard) {
+function VideoCard({ title, url }: IVideoCard) {
 
     const [isVideo, setVideo] = useState(false);
 

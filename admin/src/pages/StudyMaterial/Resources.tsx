@@ -7,8 +7,8 @@ import axios, { AxiosProgressEvent } from "axios";
 import ProgressBar from "../../components/ProgressBar";
 import { useLectureResourcQuery, useLecturResourceMutation } from "../../store/pages/Lectures/useLecture";
 import useBreadCrumb from "../../store/breadCrumbStore";
-import VideoCard from "../../components/VideoCard";
 import { IPagination } from "../../types";
+import PDFCard from "../../components/PDFCard";
 interface IUploader {
     isUploading: boolean,
     percentage: number
@@ -100,7 +100,7 @@ function StudyMaterialResource() {
             <div className="flex flex-wrap gap-2">
                 {
                     data?.data?.data?.data.map((item: { name: string, url: string }, index: number) => {
-                        return <VideoCard key={index} title={item.name} url={item.url} />
+                        return <PDFCard key={index} title={item.name} url={item.url} />
                     })
                 }
             </div>
