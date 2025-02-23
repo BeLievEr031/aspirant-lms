@@ -1,9 +1,10 @@
-import React from 'react'
+import { useUser } from "@clerk/clerk-react";
 import BannerImgSrc from "../../assets/images/logo.png"
 import ProfileSrc from "../../assets/images/profile.png"
 import Button from '../../components/Button'
 import { CiLogout } from "react-icons/ci";
 function Profile() {
+    const { user } = useUser();
     return (
         <div className='w-full'>
             <div className='flex justify-center relative'>
@@ -20,17 +21,17 @@ function Profile() {
                 <div className='flex gap-8 mt-2'>
                     <div className='w-1/3'>
                         <div className='text-xl font-semibold capitalize'>first name </div>
-                        <div className='text-xl font-semibold capitalize px-2 py-1 bg-slate-100 rounded-md mt-1'>Sandeep </div>
+                        <div className='text-xl font-semibold capitalize px-2 py-1 bg-slate-100 rounded-md mt-1'>{user?.fullName} </div>
                     </div>
                     <div className='w-1/3'>
                         <div className='text-xl font-semibold capitalize'>Last name </div>
-                        <div className='text-xl font-semibold capitalize px-2 py-1 bg-slate-100 rounded-md mt-1'>Rajak </div>
+                        <div className='text-xl font-semibold capitalize px-2 py-1 bg-slate-100 rounded-md mt-1'>{user?.lastName} </div>
                     </div>
                 </div>
                 <div className='flex gap-8 mt-4'>
                     <div className='w-1/3'>
                         <div className='text-xl font-semibold capitalize'>Email </div>
-                        <div className='text-xl font-semibold px-2 py-1 bg-slate-100 rounded-md mt-1'>sandyrajak031@gmail.com </div>
+                        <div className='text-xl font-semibold px-2 py-1 bg-slate-100 rounded-md mt-1'>{user?.primaryEmailAddress?.emailAddress} </div>
                     </div>
                 </div>
                 <Button className='mt-4' variant='danger' iconLeft={CiLogout}>Logout</Button>

@@ -23,6 +23,7 @@ import TimeTableExamCategory from "../pages/ExamTT/TimeTableExamCategory";
 import TimeTableResource from "../pages/ExamTT/TimeTableResource";
 import StudyMaterialResource from "../pages/StudyMaterial/Resources";
 import PlanResources from "../pages/StudyPlan/StudyPlanResource";
+import AI from "../pages/AI/AI";
 
 const router = createBrowserRouter([
     {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
                     {
                         path: "profile",
                         element: <Profile />
+                    },
+                    {
+                        path: "ai",
+                        element: <AI />
                     },
                 ]
             },
