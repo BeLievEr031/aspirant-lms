@@ -11,7 +11,7 @@ class ResourceService {
     async meta() {
         const uploadedLectCount = await this.resourceRepo.countDocuments({ belong: "study-material" })
         const uploadedStudyCount = await this.resourceRepo.countDocuments({ belong: "upload-lectures" })
-        const examTTCount = await this.resourceRepo.countDocuments({ belong: "exam-time" })
+        const examTTCount = await this.resourceRepo.countDocuments({ belong: "time-table" })
         const studyPlanCount = await StudyPlan.countDocuments()
         return {
             uploadedLectCount, uploadedStudyCount, examTTCount, studyPlanCount

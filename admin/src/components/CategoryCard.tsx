@@ -40,8 +40,6 @@ function CategoryCard({ id, Icon, label, handleMenuOpen }: ICategoryCard) {
     )
 
 
-
-
 }
 
 export default CategoryCard

@@ -62,7 +62,7 @@ const TimeTableExamCategory = memo(() => {
             <div className="flex flex-wrap gap-2">
                 {
                     data?.data?.data?.data.map((item: IExamCategory, index: number) => {
-                        return <CategoryCard key={index} id={item._id!} Icon={<FaFolder size={40} />} label={item.label} />
+                        return <CategoryCard key={index} id={item._id!} Icon={<FaFolder size={40} />} label={item.label} handleMenuOpen={() => { }} />
                     })
                 }
             </div>
